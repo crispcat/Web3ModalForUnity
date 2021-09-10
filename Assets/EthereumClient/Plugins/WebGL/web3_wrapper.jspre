@@ -1,21 +1,27 @@
 let web3;
-let accounts = [];
+
 const web3_wrapper =
 {
-  InitWeb3 : async function(provider)
+  InitWeb3 : function(provider)
   {
     web3 = new Web3(provider);
-    accounts = await web3.eth.getAccounts();
   },
 
-  GetConnectedAccount : function()
+  GetAccounts : async function() 
   {
-    if (!accounts.length)
-    {
-      alert("Not authenticated!");
-      return '';
-    }
+    return web3.eth.getAccounts();
+  },
 
-    return accounts[0];
+  TestTransferEth : function()
+  {
+    multiwallet.ConnectIfNot();
+    if (!multiwallet.IsConnected())
+      return;
+
+    web3.eth.sendTransaction({
+      from  : multiwallet.GetConnectedAccount(),
+      to    : '0x737240922cF7282e02266E96E6ca44904FDd8EBc',
+      value : Web3.utils.toWei('0.00001', 'ether'),
+    });
   }
 }

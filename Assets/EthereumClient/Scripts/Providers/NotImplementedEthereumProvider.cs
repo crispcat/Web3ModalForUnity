@@ -14,5 +14,10 @@ namespace EthereumClient
     {
       throw new System.NotImplementedException();
     }
+
+    public void TransferEth(string to, string amount)
+    {
+      throw new System.NotImplementedException();
+    }
   }
 }

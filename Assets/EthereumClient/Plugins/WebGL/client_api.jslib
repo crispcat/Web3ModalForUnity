@@ -7,7 +7,12 @@ const client_api =
 
   GetWalletAddress : function() 
   {    
-    return utils.StringToBuffer(web3_wrapper.GetConnectedAccount());
+    return utils.StringToBuffer(multiwallet.GetConnectedAccount());
+  },
+
+  TransferEth : function(to, amount)
+  {
+    web3_wrapper.TestTransferEth();
   }
 };
 

@@ -1,5 +1,39 @@
 const multiwallet = 
 {
+  accounts : [],
+
+  CacheAccounts : async function()
+  {
+    this.accounts = await web3_wrapper.GetAccounts();
+  },
+
+  ClearCache : function()
+  {
+    this.accounts = [];
+  },
+
+  IsConnected : function() 
+  {
+    return Boolean(this.accounts.length);
+  },
+
+  GetConnectedAccount : function()
+  {
+    if (!this.accounts.length)
+    {
+      alert("Not authenticated!");
+      return '';
+    }
+
+    return this.accounts[0];
+  },
+
+  ConnectIfNot : async function()
+  {
+    if (!multiwallet.IsConnected())
+      await multiwallet.ConnectWallet();
+  },
+
   ConnectWallet : async function()
   {
     let Web3Modal = window.Web3Modal.default;
@@ -25,13 +59,16 @@ const multiwallet =
     console.log(web3provider);
 
     web3provider.on("accountsChanged", (accounts) => {
-      web3_wrapper.InitWeb3(web3provider);
+      console.log("accounts changed: " + accounts);
+      this.CacheAccounts();
     });
-  
-    web3provider.on("chainChanged", (chainId) => {
-
+    
+    web3provider.on("disconnect", (error) => {
+      console.log("wallet disconnected");
+      this.ClearCache();
     });
 
     web3_wrapper.InitWeb3(web3provider);
-  }
+    this.CacheAccounts();
+  },
 }

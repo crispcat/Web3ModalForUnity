@@ -11,12 +11,17 @@ namespace EthereumClient
   {
     public void ConnectWallet()
     {
-      Debug.Log("UnityEditorEthereumProvider: Mock wallet connected");
+      Debug.Log("Ethereum mock: Mock wallet connected");
     }
 
     public string GetWalletAddress()
     {
       return "0x0000000000000000000000000000000000000000";
+    }
+
+    public void TransferEth(string to, string amount)
+    {
+      Debug.Log($"Ethereum mock: transferring {amount} ETH to {to}");
     }
   }
   
